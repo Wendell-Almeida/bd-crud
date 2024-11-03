@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produtos</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Cadastro de Produtos</h1>
+
+        <form method="POST" action="/adicionar" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nome">Nome do jogo</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <input type="text" class="form-control" id="descricao" name="descricao" required>
+            </div>
+            <div class="form-group">
+                <label for="nota">Nota:</label>
+                <input type="number" class="form-control" id="nota" name="nota" step="0.1" min="0" max="10">
+            </div>
+            <div class="form-group">
+                <label for="tema">Tema:</label>
+                <input type="text" class="form-control" id="tema" name="tema">
+            </div>
+            <div class="form-group">
+                <label for="genero">Gênero:</label>
+                <input type="text" class="form-control" id="genero" name="genero">
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar Produto</button>
+        </form>
+
+        <hr>
+
+        <h2>Produtos Cadastrados</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Nota</th>
+                    <th>Tema</th>
+                    <th>Gênero</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cont in games %}
+                <tr>
+                    <td>{{ cont[3] }}</td>  <!-- Nome do jogo -->
+                    <td>{{ cont[4] }}</td>  <!-- Descrição -->
+                    <td>{{ cont[5] }}</td>  <!-- Nota -->
+                    <td>{{ cont[6] }}</td>  <!-- Tema -->
+                    <td>{{ cont[7] }}</td>  <!-- Gênero -->
+                    <td>
+                        <form action="/atualizar" method="post">
+                            <input type="text" name="nome" value="{{ cont[3] }}" required>
+                            <input type="text" name="descricao" value="{{ cont[4] }}" required>
+                            <input type="number" name="nota" value="{{ cont[5] }}" step="0.1" min="0" max="10" required>
+                            <input type="text" name="tema" value="{{ cont[6] }}">
+                            <input type="text" name="genero" value="{{ cont[7] }}">
+                            <button type="submit" class="btn btn-warning">Atualizar</button>
+                        </form>
+                        <form action="/deletar" method="post" style="display:inline;">
+                            <input type="hidden" name="nome" value="{{ cont[3] }}">
+                            <input type="submit" value="Deletar" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>
